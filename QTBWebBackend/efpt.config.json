@@ -1,0 +1,117 @@
+﻿{
+   "CodeGenerationMode": 6,
+   "ContextClassName": "QTBWebDBContext",
+   "ContextNamespace": "Models",
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "IrregularWords": null,
+   "MinimumProductVersion": "2.6.1301",
+   "ModelNamespace": "Models",
+   "OutputContextPath": "Models\\EntitaDB",
+   "OutputPath": "Models\\EntitaDB",
+   "PluralRules": null,
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "QTBWebBackend",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "SingularRules": null,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[Aerei]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AereiPosseduti]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Aeroporti]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Login]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[LoginRuoli]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Manutenzioni]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Persone]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Ruoli]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ScadenzeAerei]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ScadenzePersone]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TipiAeroporti]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TipiManutenzioni]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TipiOrametri]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TipiScadenzeAerei]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TipiScadenzePersone]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TipiVoli]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Voli]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDatabaseNamesForRoutines": true,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false,
+   "UseT4Split": false
+}

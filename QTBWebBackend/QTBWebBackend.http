@@ -1,0 +1,6 @@
+@QTBWebBackend_HostAddress = http://localhost:5062
+
+GET {{QTBWebBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
