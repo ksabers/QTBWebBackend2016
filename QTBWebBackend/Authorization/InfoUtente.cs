@@ -1,4 +1,6 @@
-﻿namespace QTBWebBackend.Authorization
+﻿using QTBWebBackend.ViewModels;
+
+namespace QTBWebBackend.Authorization
 {
     public class InfoUtente
     {
@@ -11,7 +13,7 @@
         public long? VoloInCorsoId { get; set; }
 
         // ⭐ Lista di ruoli, non più una stringa singola
-        public List<string> Ruoli { get; set; } = [];
+        public List<RuoloViewModel> Ruoli { get; set; } = [];
 
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using QTBWebBackend.Authorization;
 using QTBWebBackend.Interfaces;
 using QTBWebBackend.Models;
+using QTBWebBackend.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -51,7 +52,7 @@ namespace QTBWebBackend.Services
                     Nome = login.Persona.Nome,
                     Cognome = login.Persona.Cognome,
                     VoloInCorsoId = await GetVoloInCorsoAsync(login.PersonaId),
-                    Ruoli = [.. login.Ruolo.Select(ruolo => ruolo.Descrizione)]
+                    Ruoli = [.. login.Ruolo.Select(r => new RuoloViewModel { Id = r.Id, Descrizione = r.Descrizione })]
                 }
             };
         }
