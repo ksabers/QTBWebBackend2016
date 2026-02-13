@@ -195,15 +195,10 @@ public partial class QTBWebDBContext : DbContext
         {
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.AereoId).HasColumnName("aereoID");
-            entity.Property(e => e.Data)
-                .HasColumnType("datetime")
-                .HasColumnName("data");
+            entity.Property(e => e.Data).HasColumnName("data");
             entity.Property(e => e.Descrizione)
                 .IsRequired()
                 .HasColumnName("descrizione");
-            entity.Property(e => e.Ordinaria)
-                .HasDefaultValue(true, "DF_Manutenzioni_ordinaria")
-                .HasColumnName("ordinaria");
             entity.Property(e => e.PersonaId).HasColumnName("personaID");
             entity.Property(e => e.TipoId).HasColumnName("tipoID");
             entity.Property(e => e.VoloId).HasColumnName("voloID");
@@ -289,9 +284,7 @@ public partial class QTBWebDBContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.AereoId).HasColumnName("aereoID");
-            entity.Property(e => e.Data)
-                .HasColumnType("datetime")
-                .HasColumnName("data");
+            entity.Property(e => e.Data).HasColumnName("data");
             entity.Property(e => e.Minuti).HasColumnName("minuti");
             entity.Property(e => e.Note).HasColumnName("note");
             entity.Property(e => e.Risolta).HasColumnName("risolta");
@@ -313,9 +306,7 @@ public partial class QTBWebDBContext : DbContext
             entity.HasIndex(e => e.Data, "IX_ScadenzePersone").IsDescending();
 
             entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Data)
-                .HasColumnType("datetime")
-                .HasColumnName("data");
+            entity.Property(e => e.Data).HasColumnName("data");
             entity.Property(e => e.Minuti).HasColumnName("minuti");
             entity.Property(e => e.Note).HasColumnName("note");
             entity.Property(e => e.PersonaId).HasColumnName("personaID");
@@ -406,23 +397,9 @@ public partial class QTBWebDBContext : DbContext
             entity.Property(e => e.CarburanteInizialeDx).HasColumnName("carburante_iniziale_dx");
             entity.Property(e => e.CarburanteInizialeSx).HasColumnName("carburante_iniziale_sx");
             entity.Property(e => e.Descrizione).HasColumnName("descrizione");
-            entity.Property(e => e.Durata)
-                .HasComputedColumnSql("(([orametro_ore_fine]*(60)+[orametro_minuti_fine])-([orametro_ore_inizio]*(60)+[orametro_minuti_inizio]))", true)
-                .HasColumnName("durata");
             entity.Property(e => e.Olio).HasColumnName("olio");
-            entity.Property(e => e.OraFine)
-                .HasColumnType("datetime")
-                .HasColumnName("ora_fine");
-            entity.Property(e => e.OraInizio)
-                .HasComputedColumnSql("(dateadd(minute, -(([orametro_ore_fine]*(60)+[orametro_minuti_fine])-([orametro_ore_inizio]*(60)+[orametro_minuti_inizio])),[ora_fine]))", true)
-                .HasColumnType("datetime")
-                .HasColumnName("ora_inizio");
-            entity.Property(e => e.OraLocaleAtterraggio)
-                .HasMaxLength(5)
-                .HasColumnName("ora_locale_atterraggio");
-            entity.Property(e => e.OraLocaleDecollo)
-                .HasMaxLength(5)
-                .HasColumnName("ora_locale_decollo");
+            entity.Property(e => e.OraAtterraggio).HasColumnName("ora_atterraggio");
+            entity.Property(e => e.OraDecollo).HasColumnName("ora_decollo");
             entity.Property(e => e.OrametroMinutiFine).HasColumnName("orametro_minuti_fine");
             entity.Property(e => e.OrametroMinutiInizio).HasColumnName("orametro_minuti_inizio");
             entity.Property(e => e.OrametroOreFine).HasColumnName("orametro_ore_fine");
@@ -440,7 +417,6 @@ public partial class QTBWebDBContext : DbContext
 
             entity.HasOne(d => d.AeroportoFine).WithMany(p => p.VoliAeroportoFine)
                 .HasForeignKey(d => d.AeroportoFineId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Voli_Aeroporti1");
 
             entity.HasOne(d => d.AeroportoInizio).WithMany(p => p.VoliAeroportoInizio)

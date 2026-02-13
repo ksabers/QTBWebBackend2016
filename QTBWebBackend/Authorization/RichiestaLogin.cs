@@ -1,4 +1,4 @@
-﻿namespace QTBWebBackend.Authorization.LoginModels
+﻿namespace QTBWebBackend.Authorization
 {
     public class RichiestaLogin
     {

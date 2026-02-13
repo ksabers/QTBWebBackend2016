@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QTBWebBackend.Authorization;
-using QTBWebBackend.Authorization.LoginModels;
 using QTBWebBackend.Interfaces;
 using QTBWebBackend.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,6 +17,7 @@ namespace QTBWebBackend.Services
             // 1. Cerca l'utente nel database
             var login = await contesto.Login
                 .Include(l => l.Persona)
+                .Include(l => l.Ruolo)
                 .FirstOrDefaultAsync(l => l.Username == richiesta.Username);
 
             if (login == null || !login.Attivo)
@@ -42,8 +42,26 @@ namespace QTBWebBackend.Services
             {
                 Token = Token,
                 Scadenza = ExpiresAt,
-                Utente = login.Persona
+                Utente = new InfoUtente
+                {
+                    LoginId = login.Id,
+                    PersonaId = login.PersonaId,
+                    Username = login.Username,
+                    Email = login.Persona.Email,
+                    Nome = login.Persona.Nome,
+                    Cognome = login.Persona.Cognome,
+                    VoloInCorsoId = await GetVoloInCorsoAsync(login.PersonaId),
+                    Ruoli = [.. login.Ruolo.Select(ruolo => ruolo.Descrizione)]
+                }
             };
+        }
+
+        public async Task<long?> GetVoloInCorsoAsync(long personaId)
+        {
+            return await contesto.Voli
+                .Where(v => v.PilotaId == personaId && v.OraAtterraggio == null)
+                .Select(v => v.Id)
+                .FirstOrDefaultAsync();
         }
         private static bool VerificaPassword(string password, string hashedPassword)
         {
@@ -83,20 +101,19 @@ namespace QTBWebBackend.Services
 
             // ⭐ CLAIMS - Informazioni nell'JWT
             var claims = new List<Claim> {
-            new("LoginId", login.Id.ToString()),
-            new("PersonaId", login.PersonaId.ToString()),
-            new("Email", login.Persona.Email),
-            new("Nome", login.Persona.Nome),
-            new("Cognome", login.Persona.Cognome),
-            new("Username", login.Username),      
-            new("Pilota", login.Persona.Pilota.ToString())
+                new("LoginId", login.Id.ToString()),
+                new("PersonaId", login.PersonaId.ToString()),
+                new("Email", login.Persona.Email ?? ""),
+                new("Nome", login.Persona.Nome ?? ""),
+                new("Cognome", login.Persona.Cognome ?? ""),
+                new("Username", login.Username),      
+                new("Pilota", login.Persona.Pilota.ToString() ?? "false")
             };
             foreach (var ruolo in login.Ruolo)
             {
                 claims.Add(new Claim("RuoloID", ruolo.Id.ToString()));
                 claims.Add(new Claim("Ruolo", ruolo.Descrizione));
             }
-
 
             var token = new JwtSecurityToken(
                 issuer: configurazione["AppSettings:Issuer"] ?? "QTBWebAPI",

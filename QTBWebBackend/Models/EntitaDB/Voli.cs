@@ -21,23 +21,17 @@ public partial class Voli
 
     public long AereoId { get; set; }
 
-    public DateTime? OraInizio { get; set; }
-
-    public string OraLocaleDecollo { get; set; }
+    public DateTime OraDecollo { get; set; }
 
     public int OrametroOreInizio { get; set; }
 
     public int OrametroMinutiInizio { get; set; }
 
-    public DateTime OraFine { get; set; }
+    public DateTime? OraAtterraggio { get; set; }
 
-    public string OraLocaleAtterraggio { get; set; }
+    public int? OrametroOreFine { get; set; }
 
-    public int OrametroOreFine { get; set; }
-
-    public int OrametroMinutiFine { get; set; }
-
-    public int? Durata { get; set; }
+    public int? OrametroMinutiFine { get; set; }
 
     public int? CarburanteInizialeSx { get; set; }
 
@@ -55,7 +49,7 @@ public partial class Voli
 
     public long AeroportoInizioId { get; set; }
 
-    public long AeroportoFineId { get; set; }
+    public long? AeroportoFineId { get; set; }
 
     public virtual Aerei Aereo { get; set; }
 

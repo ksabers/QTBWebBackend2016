@@ -9,8 +9,6 @@ public partial class Manutenzioni
 {
     public long Id { get; set; }
 
-    public bool Ordinaria { get; set; }
-
     public long TipoId { get; set; }
 
     public string Descrizione { get; set; }

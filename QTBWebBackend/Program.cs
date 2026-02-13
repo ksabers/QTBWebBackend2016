@@ -29,6 +29,7 @@ builder.Services.AddDbContext<QTBWebDBContext>(
 builder.Services.AddScoped<IAeroportiRepository, AeroportiRepository>();
 
 //Registrazione servizi
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAeroportiService, AeroportiService>();
 
 // ⭐ AUTENTICAZIONE JWT - SOLUZIONE NATIVA

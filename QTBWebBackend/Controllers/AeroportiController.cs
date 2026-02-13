@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QTBWebBackend.Interfaces;
-using QTBWebBackend.Services;
 using QTBWebBackend.ViewModels;
-using System.Threading.Tasks;
 
 namespace QTBWebBackend.Controllers
 {
