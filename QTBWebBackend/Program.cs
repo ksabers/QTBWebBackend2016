@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using QTBWebBackend.Aeroporti;
 using QTBWebBackend.Authorization;
-using QTBWebBackend.Interfaces;
 using QTBWebBackend.Models;
-using QTBWebBackend.Repositories;
-using QTBWebBackend.Services;
 using Scalar.AspNetCore;
 using System.Text;
 

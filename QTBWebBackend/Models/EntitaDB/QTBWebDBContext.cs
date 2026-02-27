@@ -13,42 +13,44 @@ public partial class QTBWebDBContext : DbContext
     {
     }
 
-    public virtual DbSet<Aerei> Aerei { get; set; }
+    public virtual DbSet<Aereo> Aerei { get; set; }
 
-    public virtual DbSet<AereiPosseduti> AereiPosseduti { get; set; }
+    public virtual DbSet<AereoPosseduto> AereiPosseduti { get; set; }
 
-    public virtual DbSet<Aeroporti> Aeroporti { get; set; }
+    public virtual DbSet<Aeroporto> Aeroporti { get; set; }
 
     public virtual DbSet<Login> Login { get; set; }
 
-    public virtual DbSet<Manutenzioni> Manutenzioni { get; set; }
+    public virtual DbSet<Manutenzione> Manutenzioni { get; set; }
 
-    public virtual DbSet<Persone> Persone { get; set; }
+    public virtual DbSet<Persona> Persone { get; set; }
 
-    public virtual DbSet<Ruoli> Ruoli { get; set; }
+    public virtual DbSet<Ruolo> Ruoli { get; set; }
 
-    public virtual DbSet<ScadenzeAerei> ScadenzeAerei { get; set; }
+    public virtual DbSet<ScadenzaAereo> ScadenzeAerei { get; set; }
 
-    public virtual DbSet<ScadenzePersone> ScadenzePersone { get; set; }
+    public virtual DbSet<ScadenzaPersona> ScadenzePersone { get; set; }
 
-    public virtual DbSet<TipiAeroporti> TipiAeroporti { get; set; }
+    public virtual DbSet<TipoAeroporto> TipiAeroporti { get; set; }
 
-    public virtual DbSet<TipiManutenzioni> TipiManutenzioni { get; set; }
+    public virtual DbSet<TipoManutenzione> TipiManutenzioni { get; set; }
 
-    public virtual DbSet<TipiOrametri> TipiOrametri { get; set; }
+    public virtual DbSet<TipoOrametro> TipiOrametri { get; set; }
 
-    public virtual DbSet<TipiScadenzeAerei> TipiScadenzeAerei { get; set; }
+    public virtual DbSet<TipoScadenzaAereo> TipiScadenzeAerei { get; set; }
 
-    public virtual DbSet<TipiScadenzePersone> TipiScadenzePersone { get; set; }
+    public virtual DbSet<TipoScadenzaPersona> TipiScadenzePersone { get; set; }
 
-    public virtual DbSet<TipiVoli> TipiVoli { get; set; }
+    public virtual DbSet<TipoVolo> TipiVoli { get; set; }
 
-    public virtual DbSet<Voli> Voli { get; set; }
+    public virtual DbSet<Volo> Voli { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Aerei>(entity =>
+        modelBuilder.Entity<Aereo>(entity =>
         {
+            entity.ToTable("Aerei");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Costruttore)
                 .IsRequired()
@@ -71,8 +73,10 @@ public partial class QTBWebDBContext : DbContext
                 .HasConstraintName("FK_Aerei_TipiOrametri");
         });
 
-        modelBuilder.Entity<AereiPosseduti>(entity =>
+        modelBuilder.Entity<AereoPosseduto>(entity =>
         {
+            entity.ToTable("AereiPosseduti");
+
             entity.HasIndex(e => new { e.PersonaId, e.AereoId }, "IX_AereiPosseduti").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
@@ -91,10 +95,18 @@ public partial class QTBWebDBContext : DbContext
                 .HasConstraintName("FK_AereiPosseduti_Persone");
         });
 
-        modelBuilder.Entity<Aeroporti>(entity =>
+        modelBuilder.Entity<Aeroporto>(entity =>
         {
+            entity.ToTable("Aeroporti");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Asfalto).HasColumnName("asfalto");
+            entity.Property(e => e.Cap)
+                .HasMaxLength(10)
+                .HasColumnName("CAP");
+            entity.Property(e => e.Citta)
+                .HasMaxLength(100)
+                .HasColumnName("citta");
             entity.Property(e => e.Coordinate)
                 .HasMaxLength(50)
                 .HasColumnName("coordinate");
@@ -115,11 +127,17 @@ public partial class QTBWebDBContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("indirizzo");
             entity.Property(e => e.Lunghezza).HasColumnName("lunghezza");
+            entity.Property(e => e.Nazione)
+                .HasMaxLength(100)
+                .HasColumnName("nazione");
             entity.Property(e => e.Nome)
                 .IsRequired()
                 .HasMaxLength(50)
                 .HasColumnName("nome");
             entity.Property(e => e.Note).HasColumnName("note");
+            entity.Property(e => e.Provincia)
+                .HasMaxLength(100)
+                .HasColumnName("provincia");
             entity.Property(e => e.Qfu)
                 .HasMaxLength(10)
                 .HasColumnName("QFU");
@@ -143,6 +161,8 @@ public partial class QTBWebDBContext : DbContext
 
         modelBuilder.Entity<Login>(entity =>
         {
+            entity.ToTable("Login");
+
             entity.HasIndex(e => e.Username, "UQ_Login_Email").IsUnique();
 
             entity.HasIndex(e => e.PersonaId, "UQ__Login__3FF88EA7A447D02A").IsUnique();
@@ -169,10 +189,10 @@ public partial class QTBWebDBContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Login_Persone");
 
-            entity.HasMany(d => d.Ruolo).WithMany(p => p.Login)
+            entity.HasMany(d => d.Ruoli).WithMany(p => p.Login)
                 .UsingEntity<Dictionary<string, object>>(
                     "LoginRuoli",
-                    r => r.HasOne<Ruoli>().WithMany()
+                    r => r.HasOne<Ruolo>().WithMany()
                         .HasForeignKey("RuoloId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("FK_LoginRuoli_Ruoli"),
@@ -191,8 +211,10 @@ public partial class QTBWebDBContext : DbContext
                     });
         });
 
-        modelBuilder.Entity<Manutenzioni>(entity =>
+        modelBuilder.Entity<Manutenzione>(entity =>
         {
+            entity.ToTable("Manutenzioni");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.AereoId).HasColumnName("aereoID");
             entity.Property(e => e.Data).HasColumnName("data");
@@ -222,8 +244,10 @@ public partial class QTBWebDBContext : DbContext
                 .HasConstraintName("FK_Manutenzioni_Voli");
         });
 
-        modelBuilder.Entity<Persone>(entity =>
+        modelBuilder.Entity<Persona>(entity =>
         {
+            entity.ToTable("Persone");
+
             entity.HasIndex(e => e.Cognome, "IX_Persone");
 
             entity.Property(e => e.Id).HasColumnName("ID");
@@ -269,8 +293,10 @@ public partial class QTBWebDBContext : DbContext
                 .HasConstraintName("FK_Persone_Aeroporti");
         });
 
-        modelBuilder.Entity<Ruoli>(entity =>
+        modelBuilder.Entity<Ruolo>(entity =>
         {
+            entity.ToTable("Ruoli");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Descrizione)
                 .IsRequired()
@@ -278,8 +304,10 @@ public partial class QTBWebDBContext : DbContext
                 .HasColumnName("descrizione");
         });
 
-        modelBuilder.Entity<ScadenzeAerei>(entity =>
+        modelBuilder.Entity<ScadenzaAereo>(entity =>
         {
+            entity.ToTable("ScadenzeAerei");
+
             entity.HasIndex(e => e.Data, "IX_ScadenzeAerei").IsDescending();
 
             entity.Property(e => e.Id).HasColumnName("ID");
@@ -301,8 +329,10 @@ public partial class QTBWebDBContext : DbContext
                 .HasConstraintName("FK_ScadenzeAerei_TipiScadenzeAerei");
         });
 
-        modelBuilder.Entity<ScadenzePersone>(entity =>
+        modelBuilder.Entity<ScadenzaPersona>(entity =>
         {
+            entity.ToTable("ScadenzePersone");
+
             entity.HasIndex(e => e.Data, "IX_ScadenzePersone").IsDescending();
 
             entity.Property(e => e.Id).HasColumnName("ID");
@@ -324,8 +354,10 @@ public partial class QTBWebDBContext : DbContext
                 .HasConstraintName("FK_ScadenzePersone_TipiScadenzePersone");
         });
 
-        modelBuilder.Entity<TipiAeroporti>(entity =>
+        modelBuilder.Entity<TipoAeroporto>(entity =>
         {
+            entity.ToTable("TipiAeroporti");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Descrizione)
                 .IsRequired()
@@ -333,8 +365,10 @@ public partial class QTBWebDBContext : DbContext
                 .HasColumnName("descrizione");
         });
 
-        modelBuilder.Entity<TipiManutenzioni>(entity =>
+        modelBuilder.Entity<TipoManutenzione>(entity =>
         {
+            entity.ToTable("TipiManutenzioni");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Descrizione)
                 .IsRequired()
@@ -342,16 +376,20 @@ public partial class QTBWebDBContext : DbContext
                 .HasColumnName("descrizione");
         });
 
-        modelBuilder.Entity<TipiOrametri>(entity =>
+        modelBuilder.Entity<TipoOrametro>(entity =>
         {
+            entity.ToTable("TipiOrametri");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Descrizione)
                 .IsRequired()
                 .HasMaxLength(50);
         });
 
-        modelBuilder.Entity<TipiScadenzeAerei>(entity =>
+        modelBuilder.Entity<TipoScadenzaAereo>(entity =>
         {
+            entity.ToTable("TipiScadenzeAerei");
+
             entity.HasKey(e => e.Id).HasName("PK_TipiScadenze");
 
             entity.HasIndex(e => e.Descrizione, "IX_TipiScadenzeAerei").IsUnique();
@@ -363,8 +401,10 @@ public partial class QTBWebDBContext : DbContext
                 .HasColumnName("descrizione");
         });
 
-        modelBuilder.Entity<TipiScadenzePersone>(entity =>
+        modelBuilder.Entity<TipoScadenzaPersona>(entity =>
         {
+            entity.ToTable("TipiScadenzePersone");
+
             entity.HasIndex(e => e.Descrizione, "IX_TipiScadenzePersone").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
@@ -374,8 +414,10 @@ public partial class QTBWebDBContext : DbContext
                 .HasColumnName("descrizione");
         });
 
-        modelBuilder.Entity<TipiVoli>(entity =>
+        modelBuilder.Entity<TipoVolo>(entity =>
         {
+            entity.ToTable("TipiVoli");
+
             entity.HasIndex(e => e.Descrizione, "UQ__TipiVoli__B2187F2280C0222C").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
@@ -385,8 +427,10 @@ public partial class QTBWebDBContext : DbContext
                 .HasColumnName("descrizione");
         });
 
-        modelBuilder.Entity<Voli>(entity =>
+        modelBuilder.Entity<Volo>(entity =>
         {
+            entity.ToTable("Voli");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.AereoId).HasColumnName("aereoID");
             entity.Property(e => e.AeroportoFineId).HasColumnName("aeroporto_fineID");

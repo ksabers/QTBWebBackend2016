@@ -5,23 +5,17 @@ using System.Collections.Generic;
 
 namespace QTBWebBackend.Models;
 
-public partial class Login
+public partial class AereoPosseduto
 {
     public long Id { get; set; }
 
-    public string Username { get; set; }
-
-    public string PasswordHash { get; set; }
-
     public long PersonaId { get; set; }
 
-    public bool Attivo { get; set; }
+    public long AereoId { get; set; }
 
-    public DateTime? UltimoLogin { get; set; }
+    public int? Quota { get; set; }
 
-    public DateTime DataCreazione { get; set; }
+    public virtual Aereo Aereo { get; set; }
 
     public virtual Persona Persona { get; set; }
-
-    public virtual ICollection<Ruolo> Ruoli { get; set; } = new List<Ruolo>();
 }
